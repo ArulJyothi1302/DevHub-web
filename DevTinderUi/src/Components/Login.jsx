@@ -8,6 +8,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
   const dispatch = useDispatch();
   const handleLogin = async () => {
     try {
@@ -22,8 +23,9 @@ const Login = () => {
         }
       );
       dispatch(addUser(res.data));
-      navigate("/");
+      return navigate("/");
     } catch (err) {
+      setErr(err?.response?.data || "Something went Wrong");
       console.error(err);
     }
   };
@@ -57,6 +59,7 @@ const Login = () => {
               />
             </label>
           </div>
+          <p className="text-red-600 ">{err}</p>
 
           <div className="card-actions justify-end">
             <button onClick={handleLogin} className="btn btn-primary">
