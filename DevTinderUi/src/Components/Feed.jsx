@@ -16,7 +16,7 @@ const Feed = () => {
         withCredentials: true,
       });
       console.log(res.data);
-      dispatch(addFeed(res.data));
+      dispatch(addFeed(res?.data?.data));
     } catch (err) {
       return "Something Went Wrong";
     }
@@ -24,10 +24,16 @@ const Feed = () => {
   useEffect(() => {
     getFeed();
   }, []);
+  if (!feeds) return;
+  if (feeds.length <= 0) {
+    return (
+      <h1 className="text-white text-center my-5 text-3xl">No Users Found</h1>
+    );
+  }
   return (
     feeds && (
       <div>
-        <UserCard user={feeds[1]} />
+        <UserCard user={feeds[0]} />
       </div>
     )
   );

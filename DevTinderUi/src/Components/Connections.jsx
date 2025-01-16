@@ -30,7 +30,7 @@ const Connections = () => {
   }
   return (
     connections && (
-      <div className="flex flex-col items-center">
+      <div className="flex m-4 p-4 flex-col items-center">
         <h1 className="text-center text-white font-bold my-5 text-3xl">
           Connections
         </h1>
@@ -52,7 +52,7 @@ const Connections = () => {
               <div className="mx-4 font-bold">
                 <h1 className=" text-white">{fName + " " + lName}</h1>
                 <p className="font-bold text-white">age:{age}</p>
-                <p>About:{about}</p>
+                {about && <p>About:{about}</p>}
               </div>
             </div>
           );

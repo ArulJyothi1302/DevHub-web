@@ -6,12 +6,13 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
 const ProfileEdit = ({ user }) => {
-  const [fName, setFname] = useState(user.fName);
-  const [lName, setLname] = useState(user.lName);
-  const [age, setAge] = useState(user.age);
-  const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [gender, setGender] = useState(user.gender);
-  const [about, setAbout] = useState(user.about);
+  const [fName, setFname] = useState(user.fName || "");
+  const [lName, setLname] = useState(user.lName || "");
+  const [age, setAge] = useState(user.age || "");
+  const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
+  const [gender, setGender] = useState(user.gender || "");
+  const [about, setAbout] = useState(user.about || "");
+  const [skills, setSkills] = useState(user.skills || "");
   const [err, setErr] = useState("");
   const [showToast, setShowToast] = useState(false);
 
@@ -28,6 +29,7 @@ const ProfileEdit = ({ user }) => {
           age,
           gender,
           photoUrl,
+          skills,
         },
 
         {
@@ -95,6 +97,19 @@ const ProfileEdit = ({ user }) => {
                   type="text"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
+                  className="input input-bordered w-full max-w-xs"
+                />
+                <div className="label"></div>
+              </label>
+
+              <label className="form-control w-full max-w-xs">
+                <div className="label">
+                  <span className="label-text">Skills</span>
+                </div>
+                <input
+                  type="text"
+                  value={skills}
+                  onChange={(e) => setSkills(e.target.value)}
                   className="input input-bordered w-full max-w-xs"
                 />
                 <div className="label"></div>
