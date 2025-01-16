@@ -24,10 +24,10 @@ const ProfileEdit = ({ user }) => {
         {
           fName,
           lName,
+          about,
           age,
           gender,
           photoUrl,
-          about,
         },
 
         {
