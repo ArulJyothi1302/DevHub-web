@@ -25,7 +25,7 @@ const Navbar = () => {
       <div className="navbar bg-base-300">
         <div className="flex-1">
           <Link to="/" className="btn btn-ghost text-xl">
-            DevComitee
+            DevHub
           </Link>
         </div>
         {user && (
