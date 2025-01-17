@@ -30,7 +30,9 @@ const Login = () => {
       );
       dispatch(addUser(res?.data?.data));
       return navigate("/profile");
-    } catch (err) {}
+    } catch (err) {
+      !isLogin && setErr(err?.response.data || "Something went wrong...");
+    }
   };
   const handleLogin = async () => {
     try {
@@ -60,7 +62,14 @@ const Login = () => {
               type="checkbox"
               className="ms-auto toggle border-blue-500 bg-blue-500 [--tglbg:black] hover:bg-blue-700"
               defaultChecked
-              onChange={() => setIsLogin(!isLogin)}
+              onChange={() => {
+                setIsLogin(!isLogin),
+                  setErr(""),
+                  setFname(""),
+                  setLname(""),
+                  setEmail(""),
+                  setPassword("");
+              }}
             />
             <h2 className="card-title mx-auto">
               {isLogin ? "Login" : "SignUp"}
@@ -119,7 +128,7 @@ const Login = () => {
             <div className="card-actions justify-end">
               <button
                 onClick={isLogin ? handleLogin : handleSignup}
-                className="btn btn-primary"
+                className="btn btn-primary m-auto my-2"
               >
                 {isLogin ? "Login" : "Signup"}
               </button>

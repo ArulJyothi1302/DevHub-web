@@ -32,7 +32,7 @@ const UserCard = ({ user }) => {
           <h2 className="card-title">{fName + " " + lName}</h2>
           {about && (
             <p>
-              <strong>About me:{about} </strong>
+              <strong>About: </strong>
               {about}
             </p>
           )}
