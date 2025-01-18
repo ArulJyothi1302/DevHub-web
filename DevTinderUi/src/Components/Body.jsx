@@ -7,7 +7,6 @@ import { addUser } from "../utils/userSlice";
 import Navbar from "./Navbar";
 
 const Body = () => {
-  console.log("Hi");
   const userData = useSelector((store) => store.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
