@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
-import Navbar from "./navbar";
 import { Outlet, useNavigate } from "react-router";
 import axios from "axios";
 import { baseUrl } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import Navbar from "./Navbar";
 
 const Body = () => {
   const userData = useSelector((store) => store.user);
