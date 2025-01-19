@@ -9,7 +9,7 @@ const Requests = () => {
   const request = useSelector((store) => store.request);
   const getRequests = async () => {
     try {
-      const res = await axios.get(baseUrl + "user/request/received", {
+      const res = await axios.get(baseUrl + "/user/request/received", {
         withCredentials: true,
       });
       dispatch(addRequests(res?.data?.data));
@@ -19,7 +19,7 @@ const Requests = () => {
   const reviewRequest = async (status, _id) => {
     try {
       const res = await axios.post(
-        baseUrl + "request/review/" + status + "/" + _id,
+        baseUrl + "/request/review/" + status + "/" + _id,
         {},
         {
           withCredentials: true,

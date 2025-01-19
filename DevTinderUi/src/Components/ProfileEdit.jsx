@@ -21,7 +21,7 @@ const ProfileEdit = ({ user }) => {
     try {
       setErr("");
       const res = await axios.patch(
-        baseUrl + "profile/edit",
+        baseUrl + "/profile/edit",
         {
           fName,
           lName,

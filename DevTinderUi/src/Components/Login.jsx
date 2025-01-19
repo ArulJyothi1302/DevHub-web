@@ -17,7 +17,7 @@ const Login = () => {
   const handleSignup = async () => {
     try {
       const res = await axios.post(
-        baseUrl + "signup",
+        baseUrl + "/signup",
         {
           fName,
           lName,
@@ -37,7 +37,7 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        baseUrl + "login",
+        baseUrl + "/login",
         {
           email,
           password,

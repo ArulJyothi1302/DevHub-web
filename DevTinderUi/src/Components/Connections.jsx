@@ -9,7 +9,7 @@ const Connections = () => {
   const getConnections = async () => {
     try {
       //   if (connections) return;
-      const res = await axios.get(baseUrl + "user/connections", {
+      const res = await axios.get(baseUrl + "/user/connections", {
         withCredentials: true,
       });
 
