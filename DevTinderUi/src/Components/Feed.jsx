@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import UserCard from "./UserCard";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-import { baseUrl } from "../utils/constants";
+import { BASE_URL } from "../utils/constants";
 import { addFeed } from "../utils/feedSlice";
 
 const Feed = () => {
@@ -12,7 +12,7 @@ const Feed = () => {
     if (feeds) return;
 
     try {
-      const res = await axios.get(baseUrl + "/feed", {
+      const res = await axios.get(BASE_URL + "/feed", {
         withCredentials: true,
       });
       console.log(res.data);
