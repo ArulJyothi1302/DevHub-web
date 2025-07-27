@@ -9,6 +9,9 @@ import appStore from "./utils/appStore";
 import Feed from "./Components/Feed";
 import Connections from "./Components/Connections";
 import Requests from "./Components/Requests";
+import Premium from "./Components/Premium";
+import Privacy from "./Components/Privacy";
+import Footer from "./Components/Footer";
 function App() {
   return (
     <>
@@ -21,8 +24,11 @@ function App() {
               <Route path="/profile" element={<Profile />} />
               <Route path="/connections" element={<Connections />} />
               <Route path="/requests" element={<Requests />} />
+              <Route path="/premium" element={<Premium />} />
+              <Route path="/privacy" element={<Privacy />} />
             </Route>
           </Routes>
+          
         </BrowserRouter>
       </Provider>
     </>
