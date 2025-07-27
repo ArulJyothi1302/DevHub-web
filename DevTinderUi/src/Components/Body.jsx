@@ -4,7 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser } from "../utils/userSlice";
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 const Body = () => {
@@ -29,10 +29,9 @@ const Body = () => {
     <div className="flex flex-col min-h-screen">
       <Navbar />
       <main className="flex-grow">
-      <Outlet />
+        <Outlet />
       </main>
-      <Footer/>
-
+      <Footer />
     </div>
   );
 };
