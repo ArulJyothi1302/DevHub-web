@@ -1,30 +1,33 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
+import PremiumCard from "./PremiumCard";
 
 const Premium = () => {
   const [isBuy, setIsBuy] = useState(false);
   const [isUserPremium, setIsUserPremium] = useState(false);
   const [memberShipType, setMemberShipType] = useState("");
 
-  useEffect(()=>{
+  useEffect(() => {
     verifyPremiumUser();
-  },[])
+  }, []);
   const verifyPremiumUser = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/premium/verify", { withCredentials: true });
+      const res = await axios.get(BASE_URL + "/premium/verify", {
+        withCredentials: true,
+      });
       if (res.data.isPremium) {
+        console.log(res.data);
         setIsUserPremium(true);
-        setMemberShipType(res.data.memberShipType);
+        setMemberShipType(res.data.membershipType);
       } else {
         setIsUserPremium(false);
         setMemberShipType("");
       }
-    }
-    catch(err){
+    } catch (err) {
       console.error("Error verifying premium user:", err);
     }
-  }
+  };
   const handleBuy = async (type) => {
     try {
       setIsBuy(true);
@@ -54,7 +57,7 @@ const Premium = () => {
         theme: {
           color: "#F37254",
         },
-        handler: verifyPremiumUser
+        handler: verifyPremiumUser,
       };
       const rzp = new window.Razorpay(options);
       rzp.open();
@@ -64,15 +67,16 @@ const Premium = () => {
       setIsBuy(false);
     }
   };
-  return (
-    isUserPremium ? (
-      <div className="flex justify-center items-center h-screen">
-        <div className="card p-10 bg-base-300 rounded-box grid h-60 grow place-items-center">
-          <h1 className="font-bold text-2xl">You are a Premium User</h1>
-          <div className="text-lg">Membership Type: {memberShipType}</div>
-        </div>
-      </div>
-    ) : (
+  console.log(
+    "isUserPremium:",
+    isUserPremium,
+    "memberShipType:",
+    memberShipType,
+  );
+  return isUserPremium ? (
+    // Card UI with animation for premium user
+    <PremiumCard memberShipType={memberShipType} />
+  ) : (
     <>
       <div className="mx-20 my-20 ">
         <div className="flex w-full flex-col lg:flex-row">
@@ -128,7 +132,6 @@ const Premium = () => {
         </div>
       )}
     </>
-    )
   );
 };
 
