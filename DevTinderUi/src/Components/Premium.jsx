@@ -4,6 +4,24 @@ import { BASE_URL } from "../utils/constants";
 
 const Premium = () => {
   const [isBuy, setIsBuy] = useState(false);
+  const [isUserPremium, setIsUserPremium] = useState(false);
+  const [memberShipType, setMemberShipType] = useState("");
+
+  const verifyPremiumUser = async () => {
+    try {
+      const res = await axios.get(BASE_URL + "/premium/verify", { withCredentials: true });
+      if (res.data.isPremium) {
+        setIsUserPremium(true);
+        setMemberShipType(res.data.memberShipType);
+      } else {
+        setIsUserPremium(false);
+        setMemberShipType("");
+      }
+    }
+    catch(err){
+      console.error("Error verifying premium user:", err);
+    }
+  }
   const handleBuy = async (type) => {
     try {
       setIsBuy(true);
@@ -33,6 +51,7 @@ const Premium = () => {
         theme: {
           color: "#F37254",
         },
+        handler: verifyPremiumUser
       };
       const rzp = new window.Razorpay(options);
       rzp.open();
@@ -43,6 +62,14 @@ const Premium = () => {
     }
   };
   return (
+    isUserPremium ? (
+      <div className="flex justify-center items-center h-screen">
+        <div className="card p-10 bg-base-300 rounded-box grid h-60 grow place-items-center">
+          <h1 className="font-bold text-2xl">You are a Premium User</h1>
+          <div className="text-lg">Membership Type: {memberShipType}</div>
+        </div>
+      </div>
+    ) : (
     <>
       <div className="mx-20 my-20 ">
         <div className="flex w-full flex-col lg:flex-row">
@@ -98,6 +125,7 @@ const Premium = () => {
         </div>
       )}
     </>
+    )
   );
 };
 
