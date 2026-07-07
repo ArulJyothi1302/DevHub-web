@@ -1,6 +1,47 @@
-import React from "react";
+import axios from "axios";
+import React, { useState } from "react";
+import { BASE_URL } from "../utils/constants";
 
 const Premium = () => {
+  const [isBuy, setIsBuy] = useState(false);
+  const handleBuy = async (type) => {
+    try {
+      setIsBuy(true);
+      const order = await axios.post(
+        BASE_URL + "/payment/create",
+        {
+          memberShipType: type,
+        },
+        { withCredentials: true },
+      );
+
+      const { amount, currency, orderId, notes, keyId } = order.data;
+      console.log("KeyID:", keyId);
+      const options = {
+        key: keyId, // Replace with your Razorpay key_id
+        amount: amount, // Amount is in currency subunits.
+        currency: currency,
+        name: "Dev Agent",
+        description: "Test Transaction",
+        order_id: orderId, // This is the order_id created in the backend
+        // callback_url: 'http://localhost:3000/payment-success', // Your success URL
+        prefill: {
+          name: notes?.firstname + " " + notes?.lastname,
+          email: notes?.email,
+          contact: notes?.contact || "999999999",
+        },
+        theme: {
+          color: "#F37254",
+        },
+      };
+      const rzp = new window.Razorpay(options);
+      rzp.open();
+      setIsBuy(false);
+    } catch (error) {
+      console.error("Error creating payment:", error);
+      setIsBuy(false);
+    }
+  };
   return (
     <>
       <div className="mx-20 my-20 ">
@@ -12,7 +53,12 @@ const Premium = () => {
               <li>200 Chats Per Day</li>
               <li>Blue Tick (2months)</li>
             </ul>
-            <button className="btn btn-primary">Buy Basic</button>
+            <button
+              onClick={() => handleBuy("basic")}
+              className="btn btn-primary"
+            >
+              Buy Basic
+            </button>
           </div>
           <div className="divider lg:divider-horizontal">OR</div>
           <div className="card bg-base-300 rounded-box grid h-60 grow place-items-center">
@@ -22,7 +68,12 @@ const Premium = () => {
               <li>1000 Chats Per Day</li>
               <li>Blue Tick (6months)</li>
             </ul>
-            <button className="btn btn-neutral">Buy Super</button>
+            <button
+              onClick={() => handleBuy("super")}
+              className="btn btn-neutral"
+            >
+              Buy Super
+            </button>
           </div>
           <div className="divider lg:divider-horizontal">OR</div>
           <div className="card bg-base-300 rounded-box grid h-60 grow place-items-center">
@@ -32,10 +83,20 @@ const Premium = () => {
               <li>Infinite Chats</li>
               <li>Blue Tick (1 Year)</li>
             </ul>
-            <button className="btn btn-warning">Buy Premium</button>
+            <button
+              onClick={() => handleBuy("premium")}
+              className="btn btn-warning"
+            >
+              Buy Premium
+            </button>
           </div>
         </div>
       </div>
+      {isBuy && (
+        <div className="flex justify-center items-center">
+          <div className="w-16 h-16 border-4 border-dashed rounded-full animate-spin dark:border-violet-400"></div>
+        </div>
+      )}
     </>
   );
 };
