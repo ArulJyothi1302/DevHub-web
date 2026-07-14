@@ -31,7 +31,7 @@ const Connections = () => {
   }
   return (
     connections && (
-      <div className="flex m-4 p-4 flex-col items-center">
+      <div className="max-w-4xl mx-auto px-4 py-8">
         <h1 className="text-center text-white font-bold my-5 text-3xl">
           Connections
         </h1>
@@ -41,21 +41,34 @@ const Connections = () => {
           return (
             <div
               key={con._id}
-              className="flex border border-white m-4 rounded-lg w-1/3 my-4 p-4 bg-warning-content"
+              className="w-full max-w-2xl bg-base-200 rounded-2xl shadow-xl border border-base-300 p-5 mb-5
+  transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl"
             >
-              <div>
+              <div className="flex flex-col sm:flex-row items-center gap-5">
                 <img
                   src={photoUrl}
-                  alt="user"
-                  className="w-20 h-20 rounded-full"
+                  alt={fName}
+                  className="w-24 h-24 rounded-full object-cover ring ring-primary ring-offset-2"
                 />
+
+                <div className="flex-1 text-center sm:text-left">
+                  <h2 className="text-2xl font-bold text-white">
+                    {fName} {lName}
+                  </h2>
+
+                  <p className="text-gray-400">{age && `${age} years`}</p>
+
+                  {about && (
+                    <p className="text-gray-300 mt-2 line-clamp-3">{about}</p>
+                  )}
+                </div>
+
+                <Link to={`/chat/${con._id}`}>
+                  <button className="btn btn-primary rounded-full px-8">
+                    💬 Chat
+                  </button>
+                </Link>
               </div>
-              <div className="mx-4 font-bold">
-                <h1 className=" text-white">{fName + " " + lName}</h1>
-                <p className="font-bold text-white">age:{age}</p>
-                {about && <p>About:{about}</p>}
-              </div>
-              <Link to={`/chat/${con._id}`} className="ml-auto"><button className="btn btn-secondary">Chat</button></Link>
             </div>
           );
         })}

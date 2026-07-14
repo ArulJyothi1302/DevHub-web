@@ -7,74 +7,105 @@ import { addRequests, removeRequests } from "../utils/requestSlice";
 const Requests = () => {
   const dispatch = useDispatch();
   const request = useSelector((store) => store.request);
+
   const getRequests = async () => {
     try {
       const res = await axios.get(BASE_URL + "/user/request/received", {
         withCredentials: true,
       });
+
       dispatch(addRequests(res?.data?.data));
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const reviewRequest = async (status, _id) => {
     try {
-      const res = await axios.post(
+      await axios.post(
         BASE_URL + "/request/review/" + status + "/" + _id,
         {},
         {
           withCredentials: true,
         }
       );
+
       dispatch(removeRequests(_id));
-    } catch (err) {}
+    } catch (err) {
+      console.error(err);
+    }
   };
+
   useEffect(() => {
     getRequests();
   }, []);
-  if (!request) return;
-  if (request.length === 0)
+
+  if (!request) return null;
+
+  if (request.length === 0) {
     return (
-      <h1 className="text-white font-bold text-3xl text-center my-5">
+      <h1 className="text-white font-bold text-3xl text-center my-10">
         No Request Found
       </h1>
     );
+  }
+
   return (
-    <div className="flex flex-col items-center my-10">
-      <h1 className="text-white text-3xl font-bold my-5">
+    <div className="max-w-4xl mx-auto px-4 py-8">
+      <h1 className="text-white text-3xl font-bold text-center mb-8">
         Connection Requests
       </h1>
+
       {request.map((req) => {
         const { _id, fName, lName, about, gender, photoUrl } = req.fromUserId;
+
         return (
           <div
-            className="flex m-4 p-4 justify-between items-center rounded-lg border border-b-gray-100  bg-base-300 w-1/3"
             key={_id}
+            className="bg-base-300 rounded-2xl shadow-lg border border-base-content/20
+            p-5 mb-6 transition-all duration-300 hover:shadow-2xl hover:scale-[1.01]"
           >
-            <div>
+            <div className="flex flex-col md:flex-row items-center gap-5">
+              {/* Profile */}
               <img
-                className="mx-2 p-2 w-20 h-20 rounded-full"
+                className="w-24 h-24 rounded-full object-cover border-2 border-primary"
                 src={photoUrl}
-                alt="user"
+                alt={fName}
               />
-            </div>
-            <div>
-              <h1 className="text-white font-bold">{fName + " " + lName}</h1>
-              <p className="text-white font-bold">{gender}</p>
-              <p className="text-white">{about}</p>
-            </div>
-            <div className="flex flex-col md:flex-row">
-              <button
-                className="btn btn-primary mx-2 my-2"
-                onClick={() => reviewRequest("accepted", req._id)}
-              >
-                Accept
-              </button>
-              <button
-                className="btn btn-error mx-2 my-2"
-                onClick={() => reviewRequest("rejected", req._id)}
-              >
-                Reject
-              </button>
+
+              {/* User Details */}
+              <div className="flex-1 text-center md:text-left">
+                <h2 className="text-2xl font-bold text-white">
+                  {fName} {lName}
+                </h2>
+
+                <p className="text-gray-300 mt-1 capitalize">
+                  {gender}
+                </p>
+
+                {about && (
+                  <p className="text-gray-400 mt-2">
+                    {about}
+                  </p>
+                )}
+              </div>
+
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                <button
+                  className="btn btn-success flex-1"
+                  onClick={() => reviewRequest("accepted", req._id)}
+                >
+                  ✓ Accept
+                </button>
+
+                <button
+                  className="btn btn-error flex-1"
+                  onClick={() => reviewRequest("rejected", req._id)}
+                >
+                  ✕ Reject
+                </button>
+              </div>
             </div>
           </div>
         );

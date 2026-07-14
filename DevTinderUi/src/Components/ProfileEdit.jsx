@@ -35,7 +35,7 @@ const ProfileEdit = ({ user }) => {
         {
           headers: { "Content-Type": "application/json" },
           withCredentials: true,
-        }
+        },
       );
       dispatch(addUser(res?.data?.data));
       setShowToast(true);
@@ -48,13 +48,15 @@ const ProfileEdit = ({ user }) => {
   };
   return (
     <>
-      <div className="flex justify-center my-2 mx-5">
-        <div className="card bg-info-content my-2 w-96 mx-10 shadow-xl">
+      <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col lg:flex-row items-start justify-center gap-8">
+        {" "}
+        <div className="card bg-info-content w-full max-w-xl shadow-2xl rounded-2xl">
+          {" "}
           <div className="card-body">
             <h2 className="card-title mx-auto">Edit Profile</h2>
 
             <div>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full">
                 <div className="label">
                   <span className="label-text">First Name</span>
                 </div>
@@ -62,11 +64,11 @@ const ProfileEdit = ({ user }) => {
                   type="text"
                   value={fName}
                   onChange={(e) => setFname(e.target.value)}
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full"
                 />
                 <div className="label"></div>
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full">
                 <div className="label">
                   <span className="label-text">Last Name</span>
                 </div>
@@ -74,22 +76,22 @@ const ProfileEdit = ({ user }) => {
                   type="text"
                   value={lName}
                   onChange={(e) => setLname(e.target.value)}
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full"
                 />
                 <div className="label"></div>
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full">
                 <div className="label">
                   <span className="label-text">About</span>
                 </div>
-                <input
-                  className="input input-bordered w-full max-w-xs"
-                  type="text"
+                <textarea
+                  rows={4}
                   value={about}
                   onChange={(e) => setAbout(e.target.value)}
+                  className="textarea textarea-bordered w-full"
                 />
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full">
                 <div className="label">
                   <span className="label-text">Age</span>
                 </div>
@@ -97,12 +99,12 @@ const ProfileEdit = ({ user }) => {
                   type="text"
                   value={age}
                   onChange={(e) => setAge(e.target.value)}
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full"
                 />
                 <div className="label"></div>
               </label>
 
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full">
                 <div className="label">
                   <span className="label-text">Skills</span>
                 </div>
@@ -110,11 +112,11 @@ const ProfileEdit = ({ user }) => {
                   type="text"
                   value={skills}
                   onChange={(e) => setSkills(e.target.value)}
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full"
                 />
                 <div className="label"></div>
               </label>
-              <label className="form-control w-full max-w-xs">
+              <label className="form-control w-full">
                 <div className="label">
                   <span className="label-text">Photo Url</span>
                 </div>
@@ -122,50 +124,65 @@ const ProfileEdit = ({ user }) => {
                   type="text"
                   value={photoUrl}
                   onChange={(e) => setPhotoUrl(e.target.value)}
-                  className="input input-bordered w-full max-w-xs"
+                  className="input input-bordered w-full"
                 />
                 <div className="label"></div>
               </label>
-              <label>
-                <div className="py-2">
-                  <span className="label-text">Gender</span>
-                </div>
-                <span className="mx-1">male</span>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="male"
-                  checked={gender === "male"}
-                  onChange={(e) => setGender(e.target.value)}
-                />
-                <span className="mx-1">female</span>
-                <input
-                  type="radio"
-                  name="gender"
-                  value="female"
-                  checked={gender === "female"}
-                  onChange={(e) => setGender(e.target.value)}
-                />
-                <span className="mx-1">others</span>
+              <div className="mt-4">
+                <label className="font-semibold block mb-3">Gender</label>
 
-                <input
-                  type="radio"
-                  name="gender"
-                  value="others"
-                  checked={gender === "others"}
-                  onChange={(e) => setGender(e.target.value)}
-                />
-              </label>
+                <div className="flex flex-wrap gap-6">
+                  <label className="cursor-pointer flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="male"
+                      checked={gender === "male"}
+                      onChange={(e) => setGender(e.target.value)}
+                      className="radio radio-primary"
+                    />
+                    Male
+                  </label>
+
+                  <label className="cursor-pointer flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="female"
+                      checked={gender === "female"}
+                      onChange={(e) => setGender(e.target.value)}
+                      className="radio radio-primary"
+                    />
+                    Female
+                  </label>
+
+                  <label className="cursor-pointer flex items-center gap-2">
+                    <input
+                      type="radio"
+                      name="gender"
+                      value="others"
+                      checked={gender === "others"}
+                      onChange={(e) => setGender(e.target.value)}
+                      className="radio radio-primary"
+                    />
+                    Others
+                  </label>
+                </div>
+              </div>
             </div>
-            <div className="card-actions justify-end">
-              <button onClick={saveUser} className="btn btn-primary mx-auto">
-                Save
+            <div className="card-actions mt-6">
+              <button
+                onClick={saveUser}
+                className="btn btn-primary w-full rounded-xl"
+              >
+                Save Profile
               </button>
             </div>
             <p className="text-red">{err}</p>
           </div>
         </div>
-        <div className="">
+        <div className="w-full max-w-md">
+          {" "}
           <UserCard user={{ fName, lName, age, gender, photoUrl, about }} />
         </div>
       </div>

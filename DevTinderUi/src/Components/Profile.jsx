@@ -7,9 +7,8 @@ const Profile = () => {
   // console.log("data:" + user.fName);
   return (
     user && (
-      <div>
+      <div className="min-h-screen bg-base-100 py-8">
         <ProfileEdit user={user} />
-        profile
       </div>
     )
   );
