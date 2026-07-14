@@ -12,6 +12,7 @@ import Requests from "./Components/Requests";
 import Premium from "./Components/Premium";
 import Privacy from "./Components/Privacy";
 import Footer from "./Components/Footer";
+import Chat from "./Components/Chat";
 function App() {
   return (
     <>
@@ -26,9 +27,9 @@ function App() {
               <Route path="/requests" element={<Requests />} />
               <Route path="/premium" element={<Premium />} />
               <Route path="/privacy" element={<Privacy />} />
+              <Route path="/chat/:targetUserId" element={<Chat />} />
             </Route>
           </Routes>
-          
         </BrowserRouter>
       </Provider>
     </>

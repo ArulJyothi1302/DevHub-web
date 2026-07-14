@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addConnections } from "../utils/connectionsSlice";
+import { Link } from "react-router";
 
 const Connections = () => {
   const dispatch = useDispatch();
@@ -54,6 +55,7 @@ const Connections = () => {
                 <p className="font-bold text-white">age:{age}</p>
                 {about && <p>About:{about}</p>}
               </div>
+              <Link to={`/chat/${con._id}`} className="ml-auto"><button className="btn btn-secondary">Chat</button></Link>
             </div>
           );
         })}
