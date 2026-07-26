@@ -4,6 +4,7 @@ import { createSocketConnection } from "../utils/socket";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
+import { SendHorizonal, SendHorizontal } from "lucide-react";
 
 const Chat = () => {
   const { targetUserId } = useParams();
@@ -12,10 +13,8 @@ const Chat = () => {
   const [isOnline, setIsOnline] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
   const user = useSelector((store) => store.user);
-  const connections = useSelector((store) => store.connections);
-  const targetUser = connections?.find(
-    (connection) => connection?._id === targetUserId,
-  );
+  const [targetUser, setTargetUser] = useState(null);
+
   const userId = user?._id;
   const firstName = user?.fName;
   const lastName = user?.lName;
@@ -160,6 +159,7 @@ const Chat = () => {
     const chats = await axios.get(`${BASE_URL}/chat/${targetUserId}`, {
       withCredentials: true,
     });
+    setTargetUser(chats.data.user);
     const chatMessage = chats?.data?.message.map((msg) => {
       const { text, senderId, createdAt } = msg;
       return {
@@ -199,7 +199,7 @@ const Chat = () => {
   return (
     <div className="w-full max-w-5xl mx-auto h-[calc(100vh-90px)] bg-base-200 rounded-none sm:rounded-2xl shadow-xl flex flex-col overflow-hidden">
       {" "}
-      <div className="flex items-center gap-4 p-4 border-b border-base-300 bg-base-300">
+      <div className="sticky top-0 z-20 flex items-center gap-4 p-4 border-b border-base-300 bg-base-300">
         <img
           src={targetUser?.photoUrl}
           alt={targetUser?.fName}
@@ -277,7 +277,17 @@ const Chat = () => {
           );
         })}
       </div>
-      <div className="border-t border-base-300 p-3 bg-base-200">
+      <div
+        className="
+        sticky
+        bottom-0
+        z-20
+        bg-base-200/95
+        border-t
+        border-base-300
+        p-3 
+        bg-base-200"
+      >
         <div className="flex items-center gap-3">
           <input
             type="text"
@@ -312,7 +322,7 @@ const Chat = () => {
             onClick={sendMessage}
             className="btn btn-primary text-black px-6 py-2 rounded-r-lg"
           >
-            Send ➜
+            <SendHorizontal size={20} />
           </button>
         </div>
       </div>

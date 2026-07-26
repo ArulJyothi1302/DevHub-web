@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router";
 import { BASE_URL } from "../utils/constants";
+import GoogleLoginButton from "./GoogleLoginButton";
 const Login = () => {
   const navigate = useNavigate();
   const [fName, setFname] = useState("");
@@ -17,7 +18,7 @@ const Login = () => {
   const handleSignup = async () => {
     try {
       const res = await axios.post(
-        BASE_URL + "/signup",
+        BASE_URL + "/auth/signup",
         {
           fName,
           lName,
@@ -26,7 +27,7 @@ const Login = () => {
         },
         {
           withCredentials: true,
-        }
+        },
       );
       dispatch(addUser(res?.data?.data));
       return navigate("/profile");
@@ -37,14 +38,14 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       const res = await axios.post(
-        BASE_URL + "/login",
+        BASE_URL + "/auth/login",
         {
           email,
           password,
         },
         {
           withCredentials: true,
-        }
+        },
       );
       dispatch(addUser(res?.data));
       return navigate("/");
@@ -63,12 +64,12 @@ const Login = () => {
               className="ms-auto toggle border-blue-500 bg-blue-500 [--tglbg:black] hover:bg-blue-700"
               defaultChecked
               onChange={() => {
-                setIsLogin(!isLogin),
+                (setIsLogin(!isLogin),
                   setErr(""),
                   setFname(""),
                   setLname(""),
                   setEmail(""),
-                  setPassword("");
+                  setPassword(""));
               }}
             />
             <h2 className="card-title mx-auto">
@@ -132,6 +133,9 @@ const Login = () => {
               >
                 {isLogin ? "Login" : "Signup"}
               </button>
+            </div>
+            <div>
+              <GoogleLoginButton />
             </div>
           </div>
         </div>

@@ -17,7 +17,6 @@ const Premium = () => {
         withCredentials: true,
       });
       if (res.data.isPremium) {
-        console.log(res.data);
         setIsUserPremium(true);
         setMemberShipType(res.data.membershipType);
       } else {
@@ -40,7 +39,6 @@ const Premium = () => {
       );
 
       const { amount, currency, orderId, notes, keyId } = order.data;
-      console.log("KeyID:", keyId);
       const options = {
         key: keyId, // Replace with your Razorpay key_id
         amount: amount, // Amount is in currency subunits.
@@ -67,12 +65,7 @@ const Premium = () => {
       setIsBuy(false);
     }
   };
-  console.log(
-    "isUserPremium:",
-    isUserPremium,
-    "memberShipType:",
-    memberShipType,
-  );
+
   return isUserPremium ? (
     // Card UI with animation for premium user
     <PremiumCard memberShipType={memberShipType} />

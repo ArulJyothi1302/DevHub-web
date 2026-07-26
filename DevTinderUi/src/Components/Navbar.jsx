@@ -11,9 +11,13 @@ const Navbar = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      const res = await axios.post(BASE_URL + "/logout", {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        BASE_URL + "/auth/logout",
+        {},
+        {
+          withCredentials: true,
+        },
+      );
       dispatch(removeUser());
       return navigate("/login");
     } catch (err) {
@@ -22,22 +26,14 @@ const Navbar = () => {
   };
   return (
     <div>
-      <div className="navbar bg-base-300">
+      <div className="navbar sticky top-0 z-50 bg-base-300 ">
         <div className="flex-1">
-          <Link to="/" className="btn btn-ghost text-xl">
+          <Link to={user ? "/" : "/login"} className="btn btn-ghost text-xl">
             DevHub
           </Link>
         </div>
         {user && (
           <div className="flex-none gap-2">
-            <div className="form-control">
-              <input
-                type="text"
-                placeholder="Search"
-                className="input input-bordered w-24 md:w-auto"
-              />
-            </div>
-
             <div className="mx-5 dropdown dropdown-end">
               <div
                 tabIndex={0}
@@ -53,7 +49,7 @@ const Navbar = () => {
               </div>
               <ul
                 tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
+                className=" menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 border border-blue-800 shadow"
               >
                 <li>
                   <Link to="/profile" className="justify-between">

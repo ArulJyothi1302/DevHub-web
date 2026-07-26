@@ -4,6 +4,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { useNavigate } from "react-router";
 
 const ProfileEdit = ({ user }) => {
   const [fName, setFname] = useState(user.fName || "");
@@ -15,6 +16,8 @@ const ProfileEdit = ({ user }) => {
   const [skills, setSkills] = useState(user.skills || "");
   const [err, setErr] = useState("");
   const [showToast, setShowToast] = useState(false);
+  const [isUpdated, setIsUpdated] = useState(false);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const saveUser = async () => {
@@ -41,11 +44,14 @@ const ProfileEdit = ({ user }) => {
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
+        setIsUpdated(true);
       }, 3000);
     } catch (err) {
       setErr(err?.response?.data);
     }
   };
+
+  if (isUpdated) return navigate("/");
   return (
     <>
       <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col lg:flex-row items-start justify-center gap-8">
