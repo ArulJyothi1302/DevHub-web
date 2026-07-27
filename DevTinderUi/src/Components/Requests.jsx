@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../utils/api";
 import React, { useEffect } from "react";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +10,7 @@ const Requests = () => {
 
   const getRequests = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/user/request/received", {
+      const res = await api.get("/user/request/received", {
         withCredentials: true,
       });
 
@@ -22,12 +22,12 @@ const Requests = () => {
 
   const reviewRequest = async (status, _id) => {
     try {
-      await axios.post(
+      await api.post(
         BASE_URL + "/request/review/" + status + "/" + _id,
         {},
         {
           withCredentials: true,
-        }
+        },
       );
 
       dispatch(removeRequests(_id));
@@ -79,15 +79,9 @@ const Requests = () => {
                   {fName} {lName}
                 </h2>
 
-                <p className="text-gray-300 mt-1 capitalize">
-                  {gender}
-                </p>
+                <p className="text-gray-300 mt-1 capitalize">{gender}</p>
 
-                {about && (
-                  <p className="text-gray-400 mt-2">
-                    {about}
-                  </p>
-                )}
+                {about && <p className="text-gray-400 mt-2">{about}</p>}
               </div>
 
               {/* Buttons */}

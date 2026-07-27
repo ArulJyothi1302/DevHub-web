@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../utils/api";
 import React, { useEffect, useState } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 import { useDispatch } from "react-redux";
@@ -40,8 +40,8 @@ const UserCard = ({ user }) => {
 
   const handleRequest = async (status) => {
     try {
-      const res = await axios.post(
-        `${BASE_URL}/request/send/${status}/${_id}`,
+      const res = await api.post(
+        `/request/send/${status}/${_id}`,
         {},
         {
           withCredentials: true,

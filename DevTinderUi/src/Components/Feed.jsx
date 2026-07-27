@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import UserCard from "./UserCard";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
+import api from "../utils/api";
 import { BASE_URL } from "../utils/constants";
 import { addFeed, replaceFeed } from "../utils/feedSlice";
 import { Loading } from "./Loading";
@@ -32,13 +32,13 @@ const Feed = () => {
     setErr(null);
 
     try {
-      let url = `${BASE_URL}/feed?limit=${PAGE_SIZE}`;
-
+      let url = `/feed?limit=${PAGE_SIZE}`;
+      console.log("url",url);
       if (cursorRef.current) {
         url += `&cursor=${cursorRef.current}`;
       }
 
-      const res = await axios.get(url, {
+      const res = await api.get(url, {
         withCredentials: true,
       });
 
@@ -72,7 +72,7 @@ const Feed = () => {
     setErr(null);
 
     void getFeed(true);
-  }, [user, getFeed]);
+  }, [user]);
 
   // Prefetch when only few users remain
   useEffect(() => {

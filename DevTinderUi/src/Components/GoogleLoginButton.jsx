@@ -1,5 +1,5 @@
 import { GoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import api from "../utils/api";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router";
@@ -12,8 +12,8 @@ const GoogleLoginButton = () => {
     <GoogleLogin
       onSuccess={async (credentialResponse) => {
         try {
-          const response = await axios.post(
-            `${BASE_URL}/auth/google`,
+          const response = await api.post(
+            `/auth/google`,
             {
               credential: credentialResponse.credential,
             },

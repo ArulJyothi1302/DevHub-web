@@ -1,4 +1,4 @@
-import axios from "axios";
+import api from "../utils/api";
 import React, { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
 import PremiumCard from "./PremiumCard";
@@ -13,7 +13,7 @@ const Premium = () => {
   }, []);
   const verifyPremiumUser = async () => {
     try {
-      const res = await axios.get(BASE_URL + "/premium/verify", {
+      const res = await api.get("/premium/verify", {
         withCredentials: true,
       });
       if (res.data.isPremium) {
@@ -30,8 +30,8 @@ const Premium = () => {
   const handleBuy = async (type) => {
     try {
       setIsBuy(true);
-      const order = await axios.post(
-        BASE_URL + "/payment/create",
+      const order = await api.post(
+        "/payment/create",
         {
           memberShipType: type,
         },

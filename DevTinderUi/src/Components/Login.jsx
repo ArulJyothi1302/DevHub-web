@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import api from "../utils/api";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router";
@@ -17,8 +17,8 @@ const Login = () => {
 
   const handleSignup = async () => {
     try {
-      const res = await axios.post(
-        BASE_URL + "/auth/signup",
+      const res = await api.post(
+         "/auth/signup",
         {
           fName,
           lName,
@@ -37,8 +37,8 @@ const Login = () => {
   };
   const handleLogin = async () => {
     try {
-      const res = await axios.post(
-        BASE_URL + "/auth/login",
+      const res = await api.post(
+        "/auth/login",
         {
           email,
           password,

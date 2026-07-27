@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router";
 import { createSocketConnection } from "../utils/socket";
 import { useSelector } from "react-redux";
-import axios from "axios";
+import api from "../utils/api";
 import { BASE_URL } from "../utils/constants";
 import { SendHorizonal, SendHorizontal } from "lucide-react";
 
@@ -156,7 +156,7 @@ const Chat = () => {
   }, [messages]);
 
   const fetchChatMessage = async () => {
-    const chats = await axios.get(`${BASE_URL}/chat/${targetUserId}`, {
+    const chats = await api.get(`/chat/${targetUserId}`, {
       withCredentials: true,
     });
     setTargetUser(chats.data.user);
