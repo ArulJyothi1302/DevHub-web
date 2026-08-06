@@ -1,8 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import UserCard from "./UserCard";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../utils/api";
-import { BASE_URL } from "../utils/constants";
 import { addFeed, replaceFeed } from "../utils/feedSlice";
 import { Loading } from "./Loading";
 
@@ -13,7 +12,7 @@ const Feed = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((store) => store.user);
-  const feeds = useSelector((store) => store.feed);
+  const feeds = useSelector((store) => store.feed ?? []);
 
   const cursorRef = useRef(null);
   const isFetchingRef = useRef(false);
@@ -33,7 +32,6 @@ const Feed = () => {
 
     try {
       let url = `/feed?limit=${PAGE_SIZE}`;
-      console.log("url",url);
       if (cursorRef.current) {
         url += `&cursor=${cursorRef.current}`;
       }
@@ -87,9 +85,9 @@ const Feed = () => {
     return <h1 className="text-center text-red-500 text-2xl mt-10">{err}</h1>;
   }
 
-  if (!feeds) {
+  if (isLoading && feeds.length === 0) {
     return (
-      <div className="flex justify-center item items-center my-40">
+      <div className="flex justify-center items-center my-40">
         <Loading />
       </div>
     );
