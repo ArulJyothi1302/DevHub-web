@@ -2,7 +2,9 @@ import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router";
 
 const PublicRoute = () => {
-  const { isCheckingAuth, isAuthenticated } = useSelector((store) => store.auth);
+  const { isCheckingAuth, isAuthenticated } = useSelector(
+    (store) => store.auth,
+  );
   const userData = useSelector((store) => store.user);
 
   // Still checking auth - show loading

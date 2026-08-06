@@ -4,7 +4,9 @@ import Navbar from "./Navbar";
 import Footer from "./Footer";
 
 const ProtectedRoute = () => {
-  const { isCheckingAuth, isAuthenticated } = useSelector((store) => store.auth);
+  const { isCheckingAuth, isAuthenticated } = useSelector(
+    (store) => store.auth,
+  );
   const userData = useSelector((store) => store.user);
 
   // Still checking auth - show loading
