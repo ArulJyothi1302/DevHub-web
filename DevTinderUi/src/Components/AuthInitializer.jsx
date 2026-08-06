@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import api from "../utils/api";
 import { addUser } from "../utils/userSlice";
-import { setAuthenticated, setAuthChecking } from "../utils/authSlice";
+import { setAuthenticated } from "../utils/authSlice";
 
 /**
  * AuthInitializer - runs ONCE on app mount to check authentication
@@ -15,7 +15,7 @@ const AuthInitializer = ({ children }) => {
 
   useEffect(() => {
     const initializeAuth = async () => {
-      // If already have user data, skip check
+      // If already have user data, mark auth as complete and authenticated
       if (userData?.id || userData?.email) {
         dispatch(setAuthenticated(true));
         return;
@@ -38,7 +38,7 @@ const AuthInitializer = ({ children }) => {
     if (isCheckingAuth) {
       initializeAuth();
     }
-  }, []); // Run only once on mount
+  }, [dispatch, userData]); // Re-run if userData changes
 
   return children;
 };

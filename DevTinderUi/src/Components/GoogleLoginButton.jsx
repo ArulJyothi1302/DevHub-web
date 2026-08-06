@@ -2,8 +2,8 @@ import { GoogleLogin } from "@react-oauth/google";
 import api from "../utils/api";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { setAuthenticated } from "../utils/authSlice";
 import { useNavigate } from "react-router";
-import { BASE_URL } from "../utils/constants";
 
 const GoogleLoginButton = () => {
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const GoogleLoginButton = () => {
             },
           );
           dispatch(addUser(response.data.user));
+          dispatch(setAuthenticated(true));
           if (!response.data.user.profileCompleted) {
             navigate("/profile");
           } else {

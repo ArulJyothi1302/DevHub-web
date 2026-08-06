@@ -2,9 +2,10 @@ import React, { useState } from "react";
 import api from "../utils/api";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
+import { setAuthenticated } from "../utils/authSlice";
 import { useNavigate } from "react-router";
-import { BASE_URL } from "../utils/constants";
 import GoogleLoginButton from "./GoogleLoginButton";
+
 const Login = () => {
   const navigate = useNavigate();
   const [fName, setFname] = useState("");
@@ -18,7 +19,7 @@ const Login = () => {
   const handleSignup = async () => {
     try {
       const res = await api.post(
-         "/auth/signup",
+        "/auth/signup",
         {
           fName,
           lName,
@@ -30,11 +31,13 @@ const Login = () => {
         },
       );
       dispatch(addUser(res?.data?.data));
+      dispatch(setAuthenticated(true));
       return navigate("/profile");
     } catch (err) {
       !isLogin && setErr(err?.response.data || "Something went wrong...");
     }
   };
+
   const handleLogin = async () => {
     try {
       const res = await api.post(
@@ -48,6 +51,7 @@ const Login = () => {
         },
       );
       dispatch(addUser(res?.data));
+      dispatch(setAuthenticated(true));
       return navigate("/");
     } catch (err) {
       setErr(err?.response?.data || "Something went Wrong");
