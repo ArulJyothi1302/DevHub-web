@@ -14,6 +14,7 @@ const Body = () => {
   const [isAuthResolved, setIsAuthResolved] = useState(false);
 
   useEffect(() => {
+    // Skip auth check if already on login page
     if (location.pathname === "/login") {
       setIsAuthResolved(true);
       return;
@@ -28,6 +29,7 @@ const Body = () => {
     }
 
     let isMounted = true;
+    setIsAuthResolved(false);
 
     const fetchUser = async () => {
       try {
@@ -41,13 +43,12 @@ const Body = () => {
         }
       } catch (err) {
         if (isMounted) {
-          setIsAuthResolved(true);
           navigate("/login", { replace: true });
+          setIsAuthResolved(true);
         }
       }
     };
 
-    setIsAuthResolved(false);
     fetchUser();
 
     return () => {
