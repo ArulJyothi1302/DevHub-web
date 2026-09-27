@@ -16,7 +16,8 @@ const PublicRoute = () => {
   }
 
   if (isAuthenticated && userData) {
-    return <Navigate to="/" replace />;
+    const destination = userData.profileCompleted === false ? "/profile" : "/";
+    return <Navigate to={destination} replace />;
   }
 
   return <Outlet />;

@@ -30,9 +30,13 @@ const Login = () => {
           withCredentials: true,
         },
       );
-      dispatch(addUser(res?.data?.data));
+
+      const user = res?.data?.data ?? res?.data?.user ?? res?.data;
+      dispatch(addUser(user));
       dispatch(setAuthenticated(true));
-      return navigate("/profile");
+
+      const nextRoute = user?.profileCompleted === false ? "/profile" : "/";
+      return navigate(nextRoute, { replace: true });
     } catch (err) {
       !isLogin && setErr(err?.response.data || "Something went wrong...");
     }
@@ -50,9 +54,13 @@ const Login = () => {
           withCredentials: true,
         },
       );
-      dispatch(addUser(res?.data));
+
+      const user = res?.data?.data ?? res?.data?.user ?? res?.data;
+      dispatch(addUser(user));
       dispatch(setAuthenticated(true));
-      return navigate("/");
+
+      const nextRoute = user?.profileCompleted === false ? "/profile" : "/";
+      return navigate(nextRoute, { replace: true });
     } catch (err) {
       setErr(err?.response?.data || "Something went Wrong");
       console.error(err);
