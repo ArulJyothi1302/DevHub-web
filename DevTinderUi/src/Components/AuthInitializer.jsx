@@ -1,21 +1,41 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router";
 import api from "../utils/api";
 import { addUser } from "../utils/userSlice";
-import { setAuthenticated } from "../utils/authSlice";
+import {
+  resetAuth,
+  setAuthenticated,
+  setAuthChecking,
+} from "../utils/authSlice";
 
-/**
- * AuthInitializer - runs ONCE on app mount to check authentication
- * This prevents routes from rendering until we know auth status
- */
+const PUBLIC_PATHS = ["/login"];
+
 const AuthInitializer = ({ children }) => {
   const dispatch = useDispatch();
+  const location = useLocation();
   const { isCheckingAuth } = useSelector((store) => store.auth);
   const userData = useSelector((store) => store.user);
+  const hasInitializedRef = useRef(false);
 
   useEffect(() => {
+    const isPublicRoute = PUBLIC_PATHS.includes(location.pathname);
+
+    if (isPublicRoute) {
+      if (isCheckingAuth) {
+        dispatch(setAuthChecking(false));
+        dispatch(resetAuth());
+      }
+      return;
+    }
+
+    if (!isCheckingAuth || hasInitializedRef.current) {
+      return;
+    }
+
+    hasInitializedRef.current = true;
+
     const initializeAuth = async () => {
-      // If already have user data, mark auth as complete and authenticated
       if (userData?.id || userData?.email) {
         dispatch(setAuthenticated(true));
         return;
@@ -26,19 +46,15 @@ const AuthInitializer = ({ children }) => {
           withCredentials: true,
         });
 
-        // User is authenticated
         dispatch(addUser(res.data));
         dispatch(setAuthenticated(true));
       } catch (err) {
-        // User is not authenticated (401 is expected)
-        dispatch(setAuthenticated(false));
+        dispatch(resetAuth());
       }
     };
 
-    if (isCheckingAuth) {
-      initializeAuth();
-    }
-  }, [dispatch, userData]); // Re-run if userData changes
+    initializeAuth();
+  }, [dispatch, isCheckingAuth, location.pathname, userData]);
 
   return children;
 };

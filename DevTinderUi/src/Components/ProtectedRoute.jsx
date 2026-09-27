@@ -9,7 +9,6 @@ const ProtectedRoute = () => {
   );
   const userData = useSelector((store) => store.user);
 
-  // Still checking auth - show loading
   if (isCheckingAuth) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-base-200">
@@ -18,12 +17,10 @@ const ProtectedRoute = () => {
     );
   }
 
-  // Auth check complete but not authenticated
   if (!isAuthenticated || !userData) {
     return <Navigate to="/login" replace />;
   }
 
-  // Authenticated - render protected routes
   return (
     <div className="flex flex-col min-h-screen">
       <Navbar />

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router";
 import { BASE_URL } from "../utils/constants";
 import api from "../utils/api";
 import { removeUser } from "../utils/userSlice";
+import { resetAuth } from "../utils/authSlice";
 
 const Navbar = () => {
   const user = useSelector((store) => store.user);
@@ -11,14 +12,15 @@ const Navbar = () => {
   const navigate = useNavigate();
   const handleLogout = async () => {
     try {
-      const res = await api.post(
-       "/auth/logout",
+      await api.post(
+        "/auth/logout",
         {},
         {
           withCredentials: true,
         },
       );
       dispatch(removeUser());
+      dispatch(resetAuth());
       return navigate("/login");
     } catch (err) {
       return "Something Went Wrong";

@@ -1,21 +1,29 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  isCheckingAuth: true,
+  isAuthenticated: false,
+};
+
 const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    isCheckingAuth: true, // Critical: start with true so nothing renders
-    isAuthenticated: false,
-  },
+  initialState,
   reducers: {
     setAuthChecking: (state, action) => {
-      state.isCheckingAuth = action.payload;
+      state.isCheckingAuth = Boolean(action.payload);
     },
     setAuthenticated: (state, action) => {
-      state.isAuthenticated = action.payload;
+      const nextValue = Boolean(action.payload);
+      state.isAuthenticated = nextValue;
       state.isCheckingAuth = false;
+    },
+    resetAuth: (state) => {
+      state.isCheckingAuth = false;
+      state.isAuthenticated = false;
     },
   },
 });
 
-export const { setAuthChecking, setAuthenticated } = authSlice.actions;
+export const { setAuthChecking, setAuthenticated, resetAuth } =
+  authSlice.actions;
 export default authSlice.reducer;
